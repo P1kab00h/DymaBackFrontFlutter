@@ -1,0 +1,24 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#f7b3b1",
+    "activityBar.background": "#f7b3b1",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#0f9113",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#f7b3b1",
+    "statusBar.background": "#f28683",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#ed5955",
+    "statusBarItem.remoteBackground": "#f28683",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#f28683",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#f2868399",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#F28683",
+  "accessibility.signals.sounds.volume": 0,
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
+}
