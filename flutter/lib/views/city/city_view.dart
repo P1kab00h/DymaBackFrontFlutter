@@ -6,6 +6,7 @@ import '../../models/trip_model.dart';
 import '../../providers/city_provider.dart';
 import '../../providers/trip_provider.dart';
 import '../../widgets/dyma_drawer.dart';
+import '../activity_form/activity_form_view.dart';
 import '../home/home_view.dart';
 import 'widgets/trip_activity_list.dart';
 import 'widgets/activity_list.dart';
@@ -146,6 +147,15 @@ class _CityState extends State<CityView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Organisation voyage'),
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.pushNamed(
+                    context,
+                    ActivityFormView.routeName,
+                    arguments: cityName,
+                  ),
+              icon: Icon(Icons.add))
+        ],
       ),
       drawer: const DymaDrawer(),
       body: Column(
@@ -171,6 +181,7 @@ class _CityState extends State<CityView> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.forward),
+        backgroundColor: Colors.amber,
         onPressed: () => saveTrip(city.name),
       ),
       bottomNavigationBar: BottomNavigationBar(

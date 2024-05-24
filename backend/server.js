@@ -59,4 +59,35 @@ app.put('/api/trip', async (req, res) => {
   }
 });
 
+app.post("/api/city/:cityId/activity", async (req, res) => {
+  try {
+    const cityId = req.params.cityId;
+    const activity = req.body;
+    //const city = await new Activity(body).save();
+    const city = await City.findOneAndUpdate(
+      { _id: cityId },
+      { $push: { activities: activity } },
+      { new: true, }
+    ).exec();
+    res.json(city);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json(e);
+  }
+});
+
+app.get("/api/city/:cityId/activities/verify/:activityName", 
+async (req, res) => {
+  const { cityId, activityName } = req.params;
+  const city = await City.findById(cityId).exec();
+  const index = city.activities.findIndex(
+    (activity) => activity.name === activityName
+    
+  );
+  console.log(index);
+  index === -1 
+  ? res.json('Ok') 
+  : res.status(400).json("L'activité existe déjà");
+});
+
 app.listen(80);

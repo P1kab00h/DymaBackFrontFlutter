@@ -18,29 +18,80 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeView> {
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    searchController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<City> cities = Provider.of<CityProvider>(context).cities;
+    CityProvider cityProvider = Provider.of<CityProvider>(context);
+    List<City> fliteredCities = Provider.of<CityProvider>(context)
+        .getFilteredCities(searchController.text);
     return Scaffold(
       appBar: AppBar(
         title: const Text('dymatrip'),
       ),
       drawer: const DymaDrawer(),
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        child: RefreshIndicator(
-          onRefresh: Provider.of<CityProvider>(context).fetchData,
-          displacement: 30.0,
-          color: Colors.pink,
-          child: cities.isNotEmpty
-              ? ListView.builder(
-                  itemCount: cities.length,
-                  itemBuilder: (_, i) => CityCard(
-                    city: cities[i],
+      body: Column(
+        children: [
+          Container(
+              margin: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: searchController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.search_outlined),
+                        hintText: 'Rechercher une ville',
+                      ),
+                    ),
                   ),
-                )
-              : const DymaLoader(),
-        ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.clear_outlined,
+                    ),
+                    onPressed: () {
+                      setState(() => searchController.clear());
+                    },
+                  ),
+                ],
+              )),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: RefreshIndicator(
+                onRefresh: Provider.of<CityProvider>(context).fetchData,
+                displacement: 30.0,
+                color: Colors.pink,
+                child: cityProvider.isLoading
+                    ? const DymaLoader()
+                    : fliteredCities.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: fliteredCities.length,
+                            itemBuilder: (_, i) => CityCard(
+                                  city: fliteredCities[i],
+                                ))
+                        : const Text("Aucun résultat"),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
